@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Словник модуля · Process Diagrams</title>
+<style>
+:root{--bg:#F7F5EC;--card:#FFFFFF;--ink:#22271E;--muted:#6E7468;--line:#E4E1D2;--green:#1E5631;--green-soft:#E9F2E4;--lime:#84CC16;--yellow:#FDE047;--orange:#E8890C;--orange-soft:#FCF1DE;--red:#B3402E;--red-soft:#F8E9E5;--purple:#7A5AA0;--purple-soft:#F1ECF7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.55;padding:24px 16px 60px;}
+.wrap{max-width:980px;margin:0 auto;}
+h1,h2{font-family:Georgia,serif;color:var(--green);}
+h1{font-size:28px;margin-bottom:6px;}
+h2{font-size:20px;margin:30px 0 10px;border-bottom:2px solid var(--lime);padding-bottom:4px;}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px;}
+mark{background:var(--yellow);padding:0 3px;border-radius:2px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(30,60,30,.05);}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px;}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+th{background:var(--green-soft);color:var(--green);font-weight:600;}
+tr:nth-child(even) td{background:#FBFAF4;}
+.card table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.note{background:var(--purple-soft);border-left:3px solid var(--purple);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px;}
+.warn{background:var(--red-soft);border-left:3px solid var(--red);padding:10px 14px;border-radius:0 8px 8px 0;font-size:13px;margin-top:10px;}
+.small{font-size:12.5px;color:var(--muted);}
+.trend{color:var(--green);font-weight:600;}
+.x{color:var(--red);}.v{color:var(--green);}
+ul{padding-left:20px;}
+li{margin:4px 0;}
+@media (max-width:640px){body{font-size:14.5px;}table{font-size:13px;}.card{padding:12px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>Словник модуля · Process Diagrams</h1>
+<p class="sub">Довідка під час письма. Одне правило вище всіх: <mark>у процесі нікого не цікавить, ХТО діє</mark> — матеріал є підметом, дієслово — пасивне, час — present simple.</p>
+
+<h2>1 · Єдине правило і by-агент</h2>
+<div class="card">
+<table>
+<tr><th>Band 5 (актив, виконавець)</th><th>Band 8 (пасив, матеріал)</th></tr>
+<tr><td class="x">Workers harvest the ripe pods by hand.</td><td class="v">Ripe cacao pods are harvested by hand.</td></tr>
+<tr><td class="x">Then they put the beans in boxes for ten days.</td><td class="v">The beans are then fermented in boxes for six to ten days.</td></tr>
+<tr><td class="x">Finally, workers pour it into moulds.</td><td class="v">Finally, the liquor is poured into moulds, where it sets into bars.</td></tr>
+</table>
+<table style="margin-top:10px;">
+<tr><th>by-агент</th><th>Вердикт</th></tr>
+<tr><td>are harvested by workers</td><td class="x">Видалити — передбачувано, нічого не додає</td></tr>
+<tr><td>harvested by hand · at 120°C · in the sun</td><td class="v">Залишити — спосіб і умови — це дані, не агенти</td></tr>
+<tr><td>carried out by the bees / by the beekeeper</td><td class="v">Залишити ЛИШЕ коли актор визначає поділ фаз</td></tr>
+</table>
+</div>
+
+<h2>2 · Чотири форми пасиву</h2>
+<div class="card">
+<table>
+<tr><th>Форма</th><th>Робота в ланцюгу</th><th>Приклад</th></tr>
+<tr><td class="trend">Present simple is/are + V3</td><td>Основа — 80% речень</td><td>The pods are split open and the beans are extracted.</td></tr>
+<tr><td class="trend">Perfect passive has/have been + V3</td><td>Після once/when — етап ЗАВЕРШЕНО перед наступним</td><td>Once the beans have been dried, they are transported.</td></tr>
+<tr><td class="trend">-ing passive being + V3</td><td>Після before/after — два етапи в одному реченні</td><td>…before being spread out to dry in the sun.</td></tr>
+<tr><td class="trend">Modal passive can be + V3</td><td>Після so that — мета етапу</td><td>…so that the thread can be unwound.</td></tr>
+</table>
+<div class="note">Зміна форм в одному реченні = Band 8: «The beans are then fermented in boxes for six to ten days, before being spread out to dry in the sun» — чотири ознаки в одному реченні.</div>
+</div>
+
+<h2>3 · Природний vs штучний — коли актив legal</h2>
+<div class="card">
+<table>
+<tr><th>Тип етапу</th><th>Залог</th><th>Приклад</th></tr>
+<tr><td>Виробництво (шоколад, кава, шовк, збір меду)</td><td class="trend">ПАСИВ — людина діє на матеріал</td><td>The cherries are picked and pulped.</td></tr>
+<tr><td>Природний цикл (лосось, шовкопряд)</td><td class="trend">АКТИВ — істота діє сама</td><td>The eggs hatch. Adults grow. The moth emerges.</td></tr>
+<tr><td>Цикл з однобічним етапом</td><td>Пасив, де є реальний агент</td><td>Eggs are laid (by the female) in the gravel.</td></tr>
+<tr><td>Змішана діаграма (бджоли + бджоляр)</td><td>ОБИДВА — за фазою</td><td>Bees collect nectar… the frames are removed.</td></tr>
+</table>
+<p class="small" style="margin-top:8px;"><b>Активні неперехідники для циклів:</b> hatch · emerge · grow · migrate · spawn · feed on — природні цикли; evaporate · condense · freeze · melt · flow — фізичні процеси; set · thicken · harden · cool — зміни стану всередині виробництва (the ONLY active verbs allowed there: «it sets into bars»).</p>
+</div>
+
+<h2>4 · Дієслова процесу: Band 5 → Band 8</h2>
+<div class="card">
+<table>
+<tr><th>Band 5</th><th>Band 8</th><th>Контекст</th></tr>
+<tr><td class="x">take / get</td><td class="v">extract · collect · harvest · gather</td><td>the beans are extracted</td></tr>
+<tr><td class="x">cut / break</td><td class="v">split · crush · grind · slice</td><td>crushed and winnowed</td></tr>
+<tr><td class="x">heat / cook</td><td class="v">roast · boil · steam · pan-fire</td><td>roasted at 120°C</td></tr>
+<tr><td class="x">dry</td><td class="v">sun-dried · air-dried</td><td>spread out to dry in the sun</td></tr>
+<tr><td class="x">mix</td><td class="v">blend · conche · stir in</td><td>conched and tempered</td></tr>
+<tr><td class="x">put into</td><td class="v">pour · pack · mould · jar · seal</td><td>poured into moulds</td></tr>
+<tr><td class="x">make</td><td class="v">produce · yield · transform into</td><td>a cocoon yields 300–900 m of thread</td></tr>
+<tr><td class="x">send / move</td><td class="v">transport · ship · transfer</td><td>transported to the factory</td></tr>
+<tr><td class="x">choose</td><td class="v">select · sort · grade</td><td>sorted and graded by size</td></tr>
+</table>
+<p class="small" style="margin-top:8px;">Перше правило: кради з діаграми. Підписи етапів — схвалена екзаменатором лексика (harvest, ferment, roast, grind). Формула введення терміна: «a thick liquid known as cocoa liquor».</p>
+</div>
+
+<h2>5 · Банк секвенсорів</h2>
+<div class="card">
+<table>
+<tr><th>Шухляда</th><th>Фрази</th></tr>
+<tr><td class="trend">Початок</td><td>The process begins with… · Initially,… · In the first stage,… · The cycle begins when…</td></tr>
+<tr><td class="trend">Середина</td><td>then · next · after this · subsequently · after which… · before being + V3 · once X has been + V3</td></tr>
+<tr><td class="trend">Місток фаз</td><td>In the first phase,… · Once the beans reach the factory,… · The second phase begins with…</td></tr>
+<tr><td class="trend">Кінець</td><td>Finally,… · The process concludes with… · ready for sale / brewing · at which point the cycle begins again</td></tr>
+<tr><td class="trend">Гілки</td><td>At this point, the process divides into four routes · depending on… · White tea, by contrast,…</td></tr>
+<tr><td class="trend">Цикл</td><td>…completing the cycle · The process is fully circular: it ends where it began</td></tr>
+</table>
+<div class="warn">Правило різноманіття: мінімум 4 РІЗНІ конектори, «then» ніколи двічі поспіль. Порахуй після написання — 10 секунд, а екзаменатор рахує.</div>
+</div>
+
+<h2>6 · Деталі етапів — це теж дані</h2>
+<div class="card">
+<table>
+<tr><th>Тип</th><th>Патерн</th><th>Приклад</th></tr>
+<tr><td>Спосіб</td><td>by hand · in boxes · in a centrifuge</td><td>harvested by hand</td></tr>
+<tr><td>Температура</td><td>at 120°C · in hot water</td><td>roasted at approximately 120°C</td></tr>
+<tr><td>Тривалість</td><td>for six to ten days · over 4–6 weeks</td><td>fermented in boxes for six to ten days</td></tr>
+<tr><td>Мета</td><td>to remove… · so that… can be + V3</td><td>winnowed to remove the outer shells</td></tr>
+<tr><td>Перейменування</td><td>the resulting N · known as N</td><td>the resulting nibs… known as cocoa liquor</td></tr>
+</table>
+<div class="note">Межа чесності: деталь з діаграми — так; причина з твоєї голови — ні. «Fermented for 6–10 days» — Band 8. «Fermented because this develops the flavour» — мінус бали.</div>
+</div>
+
+<h2>7 · Introduction та Overview — рамки</h2>
+<div class="card">
+<table>
+<tr><th>§1</th><th>Приклад</th></tr>
+<tr><td>The diagram illustrates the [N]-stage process by which [X] is [V3] into [Y].</td><td>…the eight-stage process by which coffee cherries are turned into packaged ground coffee.</td></tr>
+<tr><td>The diagrams illustrate [A] and [B].</td><td>…the life cycle of the silkworm and the stages in the production of silk cloth.</td></tr>
+<tr><td>how [product] is produced, from [start] to [end]</td><td>how honey is produced, from the collection of nectar to the final packaged product.</td></tr>
+</table>
+<table style="margin-top:12px;">
+<tr><th>§2 · тип</th><th>Готовий overview</th></tr>
+<tr><td>Лінійний, 2 фази</td><td>Overall, the process is linear and falls into two distinct phases: the preparation of the beans on the farm, followed by their processing in the factory.</td></tr>
+<tr><td>Цикл</td><td>Overall, the cycle consists of six stages and is fully circular: it begins with eggs laid in a riverbed and ends when adult salmon return to spawn — completing the cycle.</td></tr>
+<tr><td>Гілки</td><td>Overall, while the four teas share the same initial stages, the process then branches into four distinct routes, depending on how much the leaves are allowed to oxidise.</td></tr>
+<tr><td>Дві діаграми</td><td>Overall, the life cycle is a circular, four-stage natural process, whereas cloth production is a linear, six-stage manufacturing process — one that begins exactly where the cycle is interrupted: at the cocoon.</td></tr>
+</table>
+</div>
+
+<h2>8 · Шаблони body-речень</h2>
+<div class="card">
+<ul>
+<li><b>Фазовий відкривач:</b> In the first phase, [material] is [V3] [manner], after which it is [V3] and [V3].</li>
+<li><b>Склеєна середина:</b> The [material] is then [V3] [duration], before being [V3] [manner].</li>
+<li><b>Друга фаза:</b> Once the [material] has been [V3], it is [V3] [condition]. Following this,… Finally, it is [V3] and [V3], [end state].</li>
+<li><b>Фінальні фрази:</b> ready for sale / brewing · …into moulds, where it sets into bars · …and the cycle begins again.</li>
+</ul>
+<p class="small" style="margin-top:8px;">Формула щільності: 9 етапів ≠ 9 речень. Ціль — 2–3 етапи на речення через and, after which, before being. Якщо кожен етап — окреме речення з «then», це список, а не процес.</p>
+</div>
+
+<h2>9 · Пастки для україномовних</h2>
+<div class="card">
+<table>
+<tr><th>Пастка</th><th>✗</th><th>✓</th></tr>
+<tr><td>Неповний пасив</td><td class="x">The pods are collect by hand.</td><td class="v">The pods are collected by hand.</td></tr>
+<tr><td>Дієслово чи прикметник</td><td class="x">The beans are dry in the sun.</td><td class="v">The beans are dried in the sun.</td></tr>
+<tr><td>consist без пасиву</td><td class="x">The process is consisted of nine stages.</td><td class="v">The process consists of nine stages.</td></tr>
+<tr><td>by-агент без інформації</td><td class="x">roasted by machines / by workers</td><td class="v">roasted at 120°C · by hand · in the sun</td></tr>
+<tr><td>Минулий час у процесі</td><td class="x">In 2023, chocolate was produced…</td><td class="v">Chocolate is produced…</td></tr>
+<tr><td>Причини й думки</td><td class="x">…because this develops the flavour</td><td class="v">(не писати — Task 1 лише описує)</td></tr>
+</table>
+</div>
+
+<p class="small" style="margin-top:20px;">Ритуал перед здачею: підкресли КОЖНЕ дієслово і запитай — 1) два компоненти пасиву? 2) V3, а не прикметник? 3) present simple? 30 секунд — і пів помилки знято.</p>
+
+</div>
+</body>
+</html>
