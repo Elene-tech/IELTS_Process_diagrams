@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тренажер 3 · Пиши по частинах — Process Diagrams</title>
+<style>
+:root{--bg:#F7F5EC;--card:#FFFFFF;--ink:#22271E;--muted:#6E7468;--line:#E4E1D2;--green:#1E5631;--green-soft:#E9F2E4;--lime:#84CC16;--lime-soft:#F2F9E0;--yellow:#FDE047;--orange:#E8890C;--orange-soft:#FCF1DE;--red:#B3402E;--red-soft:#F8E9E5;--purple:#7A5AA0;--purple-soft:#F1ECF7;--blue:#2E5A88;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,sans-serif;font-size:16.5px;line-height:1.6;padding:24px 16px 60px;}
+.wrap{max-width:980px;margin:0 auto;}
+h1,h2,h3{font-family:Georgia,serif;color:var(--green);line-height:1.25;}
+h1{font-size:30px;margin-bottom:6px;}h2{font-size:22px;margin:36px 0 14px;}h3{font-size:18px;margin:18px 0 10px;}
+.sub{color:var(--muted);font-size:14.5px;margin-bottom:20px;}
+mark{background:var(--yellow);padding:0 3px;border-radius:2px;}
+.bc{font-size:13px;color:var(--muted);margin-bottom:14px;}.bc b{color:var(--green);}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 1px 3px rgba(30,60,30,.05);}
+.task-img{width:100%;max-width:100%;border:1px solid var(--line);border-radius:10px;margin:12px auto;overflow-x:auto;background:#fff;}
+.step-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:20px;padding:3px 12px;margin-bottom:10px;}
+.tag-green{color:var(--green);background:var(--green-soft);border:1px solid var(--green);}
+.tag-orange{color:var(--orange);background:var(--orange-soft);border:1px solid var(--orange);}
+.instr{background:var(--green-soft);border:1.5px solid var(--green);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:15.5px;}
+.instr .lbl{display:block;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--green);margin-bottom:6px;}
+.btn{display:inline-block;border:none;border-radius:10px;padding:11px 18px;font-size:14.5px;font-weight:600;cursor:pointer;margin:6px 6px 0 0;font-family:inherit;}
+.btn-primary{background:var(--green);color:#fff;}
+.btn-solution{background:transparent;border:1.5px solid var(--orange);color:var(--orange);}
+.btn-reset{background:transparent;border:1.5px solid var(--line);color:var(--muted);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.btn:hover:not(:disabled){opacity:.85;}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:13px 15px;font-size:16px;font-family:inherit;background:var(--card);color:var(--ink);resize:vertical;}
+textarea:focus{outline:none;border-color:var(--green);}
+textarea.locked{background:#F4F2E8;border-style:dashed;}
+.attempt{background:var(--purple-soft);border:1.5px solid var(--purple);border-radius:10px;padding:12px 15px;font-size:14.5px;margin-top:12px;}
+.attempt .lbl{display:block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--purple);margin-bottom:5px;}
+.model{display:none;margin-top:14px;border-left:3px solid var(--green);background:var(--green-soft);padding:13px 16px;border-radius:0 10px 10px 0;font-size:14.5px;}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:14px 15px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:9px;cursor:pointer;font-size:16.5px;line-height:1.5;background:var(--card);}
+.opt:hover{border-color:var(--green);}
+.opt input{margin-top:5px;accent-color:var(--green);flex-shrink:0;width:18px;height:18px;}
+.opt .why{display:none;font-size:14.5px;margin-top:6px;}
+.opt.ok{border-color:var(--green);background:var(--green-soft);}.opt.ok .why{display:block;color:var(--green);}
+.opt.bad{border-color:var(--red);background:var(--red-soft);}.opt.bad .why{display:block;color:var(--red);}
+.fb{margin-top:10px;font-size:15px;font-weight:600;}
+.rule{background:var(--lime-soft);border:1.5px solid var(--lime);border-radius:14px;padding:18px 20px;margin:28px 0;}
+.rule h3{margin-top:0;}.rule li{margin:7px 0 7px 18px;}
+.divider{border:none;border-top:2px dashed var(--line);margin:36px 0;}
+.small{font-size:13.5px;color:var(--muted);}
+.err-list li{margin:7px 0 7px 18px;font-size:14.5px;}
+details.card summary{cursor:pointer;font-weight:600;color:var(--purple);}
+.trap-table{width:100%;border-collapse:collapse;font-size:14px;}
+.trap-table td,.trap-table th{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top;}
+.trap-table th{background:var(--green-soft);color:var(--green);}
+.card table,details table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.x{color:var(--red);}.v{color:var(--green);}
+@media (max-width:640px){.task-img svg{min-width:680px;}body{padding:16px 10px 44px;font-size:15.5px;}h1{font-size:24px;}h2{font-size:19px;}.card{padding:14px;}.opt{font-size:15.5px;padding:12px;}.btn{padding:12px 16px;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="bc">Модуль 5 · Process Diagrams → <b>Тренажер 3 з 4</b></div>
+<h1>Пиши по частинах</h1>
+<p class="sub">Спочатку твоя спроба — потім модель. Центр тренажера — дріли на <mark>пасивний стан</mark> і <mark>секвенсори</mark>: саме вони тримають 50% оцінки в цьому типі завдань.</p>
+
+<div class="instr">
+  <span class="lbl">Як проходити цей тренажер</span>
+  Кнопка з моделлю відкривається лише після твоєї спроби (мінімум ~5 слів). Словник відкритий завжди — це інструмент, а не шпаргалка.
+</div>
+
+<!-- ============ 3.1 INTRODUCTION ============ -->
+<h2>3.1 · Introduction — 3 заміни за 90 секунд</h2>
+<div class="card">
+  <span class="step-tag tag-green">Правило · три ходи</span>
+  <p style="font-size:15.5px;">1) Дієслово: <i>shows → illustrates / depicts</i>. 2) Конструкція: <i>how chocolate is produced → the nine-stage process by which…</i> (порахуй етапи!). 3) Подорож матеріалу: <i>from X to Y</i> у пасиві. Жодних деталей етапів.</p>
+</div>
+
+<div class="card">
+  <h3>Завдання 1 · Кава</h3>
+  <div class="task-img"><svg viewBox="0 0 1140 570" width="100%" style="display:block;background:#fff;max-width:1140px;"><text x="570" y="32" font-size="18" font-weight="600" text-anchor="middle" fill="#22271E" font-family="Georgia,serif">How coffee is produced — from cherry to packaged ground coffee</text><rect x="20" y="52" width="1100" height="152" rx="14" fill="#E9F2E4" stroke="#1E5631" stroke-width="1.5" stroke-dasharray="6,4"/><text x="38" y="76" font-size="13" font-weight="700" letter-spacing="1.5" fill="#1E5631" font-family="Segoe UI,sans-serif">PHASE 1 · ON THE FARM</text><rect x="50" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="72" cy="112" r="14" fill="#1E5631"/><text x="72" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">1</text><text x="165.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">PICK</text><text x="165.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">ripe red cherries</text><text x="165.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">by hand</text><rect x="320" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="342" cy="112" r="14" fill="#1E5631"/><text x="342" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">2</text><text x="435.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">PULP</text><text x="435.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">= remove the skin</text><text x="435.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">and fruit flesh</text><rect x="590" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="612" cy="112" r="14" fill="#1E5631"/><text x="612" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">3</text><text x="705.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">FERMENT</text><text x="705.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">12–48 hours</text><text x="705.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">in tanks</text><rect x="860" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="882" cy="112" r="14" fill="#1E5631"/><text x="882" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">4</text><text x="975.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">DRY</text><text x="975.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">beans sun-dried</text><text x="975.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">on racks</text><line x1="280" y1="146" x2="312" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M312,146 l-9,-6 v12 z" fill="#1E5631"/><line x1="550" y1="146" x2="582" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M582,146 l-9,-6 v12 z" fill="#1E5631"/><line x1="820" y1="146" x2="852" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M852,146 l-9,-6 v12 z" fill="#1E5631"/><path d="M975,242 v18 q0,10 10,10 h120" fill="none" stroke="#E8890C" stroke-width="3"/><path d="M1105,270 l-9,-6 v12 z" fill="#E8890C"/><rect x="20" y="286" width="1100" height="152" rx="14" fill="#FCF1DE" stroke="#E8890C" stroke-width="1.5" stroke-dasharray="6,4"/><text x="38" y="310" font-size="13" font-weight="700" letter-spacing="1.5" fill="#E8890C" font-family="Segoe UI,sans-serif">PHASE 2 · MILL &amp; ROASTERY</text><rect x="50" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="72" cy="346" r="14" fill="#E8890C"/><text x="72" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">5</text><text x="165.0" y="378" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">HULL</text><text x="165.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">= remove the dry</text><text x="165.0" y="416" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">outer parchment</text><rect x="320" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="342" cy="346" r="14" fill="#E8890C"/><text x="342" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">6</text><text x="435.0" y="378" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">SORT &amp; GRADE</text><text x="435.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">by size</text><text x="435.0" y="416" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">and quality</text><rect x="590" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="612" cy="346" r="14" fill="#E8890C"/><text x="612" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">7</text><text x="705.0" y="378" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">ROAST</text><text x="705.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">at 200–240°C</text><rect x="860" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="882" cy="346" r="14" fill="#E8890C"/><text x="882" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">8</text><text x="975.0" y="378" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">GRIND &amp; PACK</text><text x="975.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">ready for brewing</text><line x1="280" y1="380" x2="312" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M312,380 l-9,-6 v12 z" fill="#E8890C"/><line x1="550" y1="380" x2="582" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M582,380 l-9,-6 v12 z" fill="#E8890C"/><line x1="820" y1="380" x2="852" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M852,380 l-9,-6 v12 z" fill="#E8890C"/><text x="570" y="550" font-size="11.5" font-style="italic" text-anchor="middle" fill="#8A8F80" font-family="Segoe UI,sans-serif">Task in the style of Cambridge IELTS 15–18 · diagram redesigned for training purposes</text></svg></div>
+  <div class="instr"><span class="lbl">Інструкція до завдання</span>Перефразуй (1 речення):<br><i>The diagram below shows the process by which coffee is produced, from the harvesting of coffee cherries to the final packaged product.</i></div>
+  <textarea id="i1" rows="2" placeholder="The diagram illustrates..."></textarea>
+  <button class="btn btn-solution" id="b1" disabled>Показати модель</button>
+  <div id="a1"></div>
+  <div class="model" id="m1"><b>Модель:</b> The diagram illustrates the eight-stage process by which coffee cherries are turned into packaged ground coffee.
+  <p class="small" style="margin-top:8px;">Українською: число етапів + пасивна трансформація матеріалу. Дві заміни — і вступ готовий.</p></div>
+</div>
+
+<div class="card">
+  <h3>Завдання 2 · Лосось (цикл)</h3>
+  <div class="task-img"><svg viewBox="0 0 1000 780" width="100%" style="display:block;background:#fff;max-width:1000px;"><text x="500" y="34" font-size="18" font-weight="600" text-anchor="middle" fill="#22271E" font-family="Georgia,serif">The life cycle of the salmon</text><path d="M539,229 A175,175 0 0 1 628,281" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M628,281 l-6,11 l-3,-3 l7,-3 z" fill="#2E5A88"/><path d="M667,349 A175,175 0 0 1 667,451" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M667,451 l-13,0 l1,-4 l7,5 z" fill="#2E5A88"/><path d="M628,519 A175,175 0 0 1 539,571" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M539,571 l-7,-11 l4,-1 l-1,8 z" fill="#2E5A88"/><path d="M461,571 A175,175 0 0 1 372,519" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M372,519 l6,-11 l3,3 l-7,3 z" fill="#2E5A88"/><path d="M333,451 A175,175 0 0 1 333,349" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M333,349 l13,-0 l-1,4 l-7,-5 z" fill="#2E5A88"/><path d="M372,281 A175,175 0 0 1 461,229" fill="none" stroke="#2E5A88" stroke-width="4"/><path d="M461,229 l7,11 l-4,1 l1,-8 z" fill="#2E5A88"/><circle cx="500" cy="400" r="88" fill="#EDF3F9" stroke="#2E5A88" stroke-width="2"/><text x="500" y="398" font-size="16" font-weight="700" text-anchor="middle" fill="#2E5A88" font-family="Segoe UI,sans-serif">THE SALMON</text><text x="500" y="420" font-size="12.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">life cycle</text><rect x="391.0" y="62" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="413.0" cy="84" r="13" fill="#2E5A88"/><text x="413.0" y="89" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">1</text><text x="500.0" y="98" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">EGGS LAID</text><text x="500.0" y="120" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">in riverbed gravel</text><rect x="576.0" y="200" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="598.0" cy="222" r="13" fill="#2E5A88"/><text x="598.0" y="227" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">2</text><text x="685.0" y="236" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">FRY HATCH</text><text x="685.0" y="258" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">3–6 months in freshwater</text><rect x="576.0" y="520" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="598.0" cy="542" r="13" fill="#2E5A88"/><text x="598.0" y="547" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">3</text><text x="685.0" y="556" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">SMOLTS MIGRATE</text><text x="685.0" y="578" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">downstream to the sea</text><rect x="391.0" y="660" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="413.0" cy="682" r="13" fill="#2E5A88"/><text x="413.0" y="687" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">4</text><text x="500.0" y="696" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">ADULTS GROW</text><text x="500.0" y="718" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">1–4 years in the ocean</text><rect x="206.0" y="520" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="228.0" cy="542" r="13" fill="#2E5A88"/><text x="228.0" y="547" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">5</text><text x="315.0" y="556" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">RETURN UPSTREAM</text><text x="315.0" y="578" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">back to the home river</text><rect x="206.0" y="200" width="218" height="78" rx="12" fill="#fff" stroke="#2E5A88" stroke-width="2.5"/><circle cx="228.0" cy="222" r="13" fill="#2E5A88"/><text x="228.0" y="227" font-size="14" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">6</text><text x="315.0" y="236" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">SPAWN</text><text x="315.0" y="258" font-size="11.5" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">eggs laid — cycle repeats</text><text x="500" y="766" font-size="11.5" font-style="italic" text-anchor="middle" fill="#8A8F80" font-family="Segoe UI,sans-serif">Task in the style of Cambridge IELTS 15–18 · diagram redesigned for training purposes</text></svg></div>
+  <div class="instr"><span class="lbl">Інструкція до завдання</span><i>The diagram below shows the life cycle of the salmon.</i> Цикл не перефразовуємо назву — додай рамку (де відбувається).</div>
+  <textarea id="i2" rows="2" placeholder="The diagram illustrates..."></textarea>
+  <button class="btn btn-solution" id="b2" disabled>Показати модель</button>
+  <div id="a2"></div>
+  <div class="model" id="m2"><b>Модель:</b> The diagram illustrates the life cycle of the salmon, a natural process that takes place across both freshwater rivers and the open sea.
+  <p class="small" style="margin-top:8px;">Українською: «life cycle» лишаємо як термін, додаємо рамку місць — це вся інформація про форму.</p></div>
+</div>
+
+<div class="card">
+  <h3>Завдання 3 · Мед</h3>
+  <div class="task-img"><svg viewBox="0 0 1140 570" width="100%" style="display:block;background:#fff;max-width:1140px;"><text x="570" y="32" font-size="18" font-weight="600" text-anchor="middle" fill="#22271E" font-family="Georgia,serif">How honey is produced — by bees, then by the beekeeper</text><rect x="20" y="52" width="1100" height="152" rx="14" fill="#E9F2E4" stroke="#1E5631" stroke-width="1.5" stroke-dasharray="6,4"/><text x="38" y="76" font-size="13" font-weight="700" letter-spacing="1.5" fill="#1E5631" font-family="Segoe UI,sans-serif">PHASE 1 · BY THE BEES</text><rect x="50" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="72" cy="112" r="14" fill="#1E5631"/><text x="72" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">1</text><text x="165.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">COLLECT</text><text x="165.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">nectar</text><text x="165.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">from flowers</text><rect x="320" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="342" cy="112" r="14" fill="#1E5631"/><text x="342" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">2</text><text x="435.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">STORE</text><text x="435.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">in the cells</text><text x="435.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">of the hive</text><rect x="590" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="612" cy="112" r="14" fill="#1E5631"/><text x="612" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">3</text><text x="705.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">FAN WINGS</text><text x="705.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">water evaporates</text><text x="705.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">— honey thickens</text><rect x="860" y="90" width="230" height="116" rx="12" fill="#fff" stroke="#1E5631" stroke-width="2.5"/><circle cx="882" cy="112" r="14" fill="#1E5631"/><text x="882" y="117" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">4</text><text x="975.0" y="144" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">SEAL</text><text x="975.0" y="166" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">cells capped</text><text x="975.0" y="182" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">with wax</text><line x1="280" y1="146" x2="312" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M312,146 l-9,-6 v12 z" fill="#1E5631"/><line x1="550" y1="146" x2="582" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M582,146 l-9,-6 v12 z" fill="#1E5631"/><line x1="820" y1="146" x2="852" y2="146" stroke="#1E5631" stroke-width="3"/><path d="M852,146 l-9,-6 v12 z" fill="#1E5631"/><path d="M975,242 v18 q0,10 10,10 h120" fill="none" stroke="#E8890C" stroke-width="3"/><path d="M1105,270 l-9,-6 v12 z" fill="#E8890C"/><rect x="20" y="286" width="1100" height="152" rx="14" fill="#FCF1DE" stroke="#E8890C" stroke-width="1.5" stroke-dasharray="6,4"/><text x="38" y="310" font-size="13" font-weight="700" letter-spacing="1.5" fill="#E8890C" font-family="Segoe UI,sans-serif">PHASE 2 · BY THE BEEKEEPER</text><rect x="50" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="72" cy="346" r="14" fill="#E8890C"/><text x="72" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">5</text><text x="165.0" y="378" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">CALM WITH SMOKE</text><text x="165.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">frames taken</text><text x="165.0" y="416" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">from the hive</text><rect x="320" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="342" cy="346" r="14" fill="#E8890C"/><text x="342" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">6</text><text x="435.0" y="378" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">UNCAP</text><text x="435.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">wax seals</text><text x="435.0" y="416" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">scraped off</text><rect x="590" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="612" cy="346" r="14" fill="#E8890C"/><text x="612" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">7</text><text x="705.0" y="378" font-size="15.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">SPIN</text><text x="705.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">in a centrifuge</text><text x="705.0" y="416" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">— extracts honey</text><rect x="860" y="324" width="230" height="116" rx="12" fill="#fff" stroke="#E8890C" stroke-width="2.5"/><circle cx="882" cy="346" r="14" fill="#E8890C"/><text x="882" y="351" font-size="15" font-weight="700" text-anchor="middle" fill="#fff" font-family="Segoe UI,sans-serif">8</text><text x="975.0" y="378" font-size="13.5" font-weight="700" text-anchor="middle" fill="#22271E" font-family="Segoe UI,sans-serif">FILTER &amp; JAR</text><text x="975.0" y="400" font-size="12" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">ready for sale</text><line x1="280" y1="380" x2="312" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M312,380 l-9,-6 v12 z" fill="#E8890C"/><line x1="550" y1="380" x2="582" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M582,380 l-9,-6 v12 z" fill="#E8890C"/><line x1="820" y1="380" x2="852" y2="380" stroke="#E8890C" stroke-width="3"/><path d="M852,380 l-9,-6 v12 z" fill="#E8890C"/><text x="570" y="504" font-size="13" text-anchor="middle" fill="#6E7468" font-family="Segoe UI,sans-serif">Linear process · 8 stages · 2 phases · note the two different "actors"</text><text x="570" y="550" font-size="11.5" font-style="italic" text-anchor="middle" fill="#8A8F80" font-family="Segoe UI,sans-serif">Task in the style of Cambridge IELTS 15–18 · diagram redesigned for training purposes</text></svg></div>
+  <div class="instr"><span class="lbl">Інструкція до завдання</span><i>The diagram below shows how honey is produced, from the collection of nectar by bees to the final packaged product.</i></div>
+  <textarea id="i3" rows="2" placeholder="The diagram illustrates..."></textarea>
+  <button class="btn btn-solution" id="b3" disabled>Показати модель</button>
+  <div id="a3"></div>
+  <div class="model" id="m3"><b>Модель:</b> The diagram illustrates how honey is produced, from the collection of nectar to the final packaged product.
+  <p class="small" style="margin-top:8px;">Українською: «by bees» прибрано з вступу — фази й актори оголошуються в overview, не в §1.</p></div>
+</div>
+
+<!-- ============ 3.2 OVERVIEW MCQ ============ -->
+<h2>3.2 · Overview · спочатку правило, потім контроль</h2>
+<div class="card">
+  <span class="step-tag tag-orange">Правило overview</span>
+  <p style="font-size:15.5px;">Overview = <mark>форма + фази + старт → фініш</mark>. Заборонено: назви етапів (harvesting? НІ), деталі (120°C? НІ), причини (because? НІКОЛИ). У процесах «деталі» = назви дій, а не цифри.</p>
+</div>
+<div class="card">
+  <div id="ov-items"></div>
+  <button class="btn btn-primary" onclick="checkOV()">Перевірити</button>
+  <button class="btn btn-reset" onclick="resetOV()">Спробувати ще</button>
+  <div class="fb" id="ov-fb"></div>
+</div>
+
+<!-- ============ 3.3 DRILLS ============ -->
+<h2>3.3 · Пасив і секвенсори · три дріли</h2>
+<details class="card" id="dict">
+  <summary>Словник: 4 форми пасиву + банк секвенсорів (відкрити)</summary>
+  <div style="margin-top:12px;font-size:14.5px;">
+    <p><b>Present simple passive</b> (is/are + V3) — основа, 80% речень: <i>the beans are roasted</i>.<br>
+    <b>Perfect passive</b> (have been + V3) — після once/when: <i>once the beans have been dried</i>.<br>
+    <b>-ing passive</b> (being + V3) — після before/after: <i>before being poured into moulds</i>.<br>
+    <b>Modal passive</b> (can be + V3) — мета: <i>so that the thread can be unwound</i>.</p>
+    <p style="margin-top:6px;"><b>Секвенсори:</b> початок — The process begins with… / Initially…; середина — then / after which / subsequently / before being… / once X has been…; місток фаз — In the first phase… / Once the beans reach the factory…; кінець — Finally… / the process concludes with… / ready for sale. Правило: мінімум 4 різні, «then» ніколи двічі поспіль.</p>
+  </div>
+</details>
+
+<h3>Дріль А · Побудуй пасив (4 завдання)</h3>
+<div class="card"><div class="instr"><span class="lbl">Інструкція</span>Обери правильний пасивний варіант. Пильнуй: повні два компоненти (be + V3)? Дієслово, а не прикметник?</div><div id="drillA"></div><button class="btn btn-primary" onclick="checkDrill('A')">Перевірити</button> <button class="btn btn-reset" onclick="resetDrill('A')">Спробувати ще</button><div class="fb" id="fbA"></div></div>
+
+<h3>Дріль Б · Секвенсор на місце (3 завдання)</h3>
+<div class="card"><div class="instr"><span class="lbl">Інструкція</span>Обери зв'язок, який склеїть два етапи в одне речення правильно і не повторить «then».</div><div id="drillB"></div><button class="btn btn-primary" onclick="checkDrill('B')">Перевірити</button> <button class="btn btn-reset" onclick="resetDrill('B')">Спробувати ще</button><div class="fb" id="fbB"></div></div>
+
+<h3>Дріль В · Онови речення Band 5 (3 завдання)</h3>
+<div class="card"><div class="instr"><span class="lbl">Інструкція</span>Активний «workers… then they…» → пасив Band 8. Обери сильну версію.</div><div id="drillC"></div><button class="btn btn-primary" onclick="checkDrill('C')">Перевірити</button> <button class="btn btn-reset" onclick="resetDrill('C')">Спробувати ще</button><div class="fb" id="fbC"></div></div>
+
+<!-- ============ 3.4 GRAMMAR ============ -->
+<h2>3.4 · Граматика 7.5 · «Виправ абзац»</h2>
+<div class="card">
+  <div class="instr"><span class="lbl">Інструкція до завдання</span>Класичний Band 5-абзац про шоколад. Випиши свою версію англійською: всі 9 етапів, жодного «they», пасив throughout. Модель відкриється після твоєї спроби.</div>
+  <div style="background:var(--orange-soft);border:1px solid var(--orange);border-radius:10px;padding:12px 15px;font-size:15px;margin:12px 0;"><i>Workers harvest the cacao pods by hand. Then they split the pods and take out the beans. Next, the beans stay in boxes for six to ten days. After that, workers dry the beans in the sun. Then the beans go to a factory. There, machines roast the beans at 120 degrees. After this, they crush the beans and the shells come off. Then they grind the beans into a thick liquid. Finally, they pour the liquid into moulds and it becomes chocolate bars.</i></div>
+  <textarea id="fx" rows="5" placeholder="In the first phase, ripe cacao pods are harvested..."></textarea>
+  <button class="btn btn-solution" id="bfx" disabled>Показати версію Band 8 + розбір</button>
+  <div id="afx"></div>
+  <div class="model" id="mfx">
+    <b>Версія Band 8:</b> In the first phase, ripe cacao pods are harvested by hand, after which they are split open and the beans are extracted. The beans are then fermented in boxes for six to ten days, before being spread out to dry in the sun. Once the beans reach the factory, they are roasted at 120°C, crushed and winnowed to remove the outer shells. Finally, the nibs are ground into a thick liquor, which is poured into moulds, where it sets into bars.
+    <ul class="err-list" style="margin-top:12px;">
+      <li><span class="x">Workers harvest… they split…</span> → <span class="v">are harvested… they are split</span> — виконавці стерті, матеріал — підмет.</li>
+      <li><span class="x">take out</span> → <span class="v">are extracted</span> — точне дієслово діаграми.</li>
+      <li><span class="x">stay in boxes</span> → <span class="v">are fermented in boxes</span> — «stay» нічого не каже; діаграма дає ferment.</li>
+      <li><span class="x">the beans go to a factory</span> → <span class="v">Once the beans reach the factory</span> — місток фази, а не «go».</li>
+      <li><span class="x">the shells come off</span> → <span class="v">winnowed to remove the outer shells</span> — мета інфінітив замість розмовного «come off».</li>
+      <li><span class="x">it becomes chocolate bars</span> → <span class="v">where it sets into bars</span> — «set» — те, що робить шоколад.</li>
+      <li><span class="x">8 речень з 5 × «then»</span> → <span class="v">4 речення, 4 різні зв'язки</span> — щільність Band 8.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Контрольна · 6 пасток для українців</h3>
+  <div class="instr"><span class="lbl">Навіщо ця контрольна</span>Пасив = два компоненти (be + V3). Ці 6 помилок з'являються майже в кожній першій чернетці. Пройди всі — і не робитимеш їх на іспиті.</div>
+  <div id="traps"></div>
+  <button class="btn btn-primary" onclick="checkTraps()">Перевірити</button>
+  <button class="btn btn-reset" onclick="resetTraps()">Спробувати ще</button>
+  <div class="fb" id="traps-fb"></div>
+  <details style="margin-top:14px;">
+    <summary style="cursor:pointer;font-weight:600;color:var(--purple);">Повна таблиця пасток (відкрити)</summary>
+    <table class="trap-table" style="margin-top:10px;">
+      <tr><th>Пастка</th><th>✗ Неправильно</th><th>✓ Правильно</th></tr>
+      <tr><td>Неповний пасив</td><td class="x">The pods are collect by hand.</td><td class="v">The pods are collected by hand.</td></tr>
+      <tr><td>Дієслово чи прикметник?</td><td class="x">The beans are dry in the sun.</td><td class="v">The beans are dried in the sun.</td></tr>
+      <tr><td>consist без пасиву</td><td class="x">The process is consisted of nine stages.</td><td class="v">The process consists of nine stages.</td></tr>
+      <tr><td>by-агент без інформації</td><td class="x">…roasted by machines / by workers</td><td class="v">…roasted at 120°C · by hand · in the sun</td></tr>
+      <tr><td>Минулий час у процесі</td><td class="x">In 2023, chocolate was produced…</td><td class="v">Chocolate is produced… (present simple)</td></tr>
+      <tr><td>Причини й думки</td><td class="x">…because this develops the flavour</td><td class="v">(не писати — Task 1 лише описує)</td></tr>
+    </table>
+  </details>
+</div>
+
+<div class="rule">
+  <h3>Підсумок тренажера · що ти тепер вмієш</h3>
+  <ul>
+    <li><b>Introduction</b> — 3 заміни за 90 секунд: дієслово + кількість етапів + подорож матеріалу.</li>
+    <li><b>Overview</b> — форма + фази + рамка; жодної назви етапу.</li>
+    <li><b>Пасив</b> — 4 форми зі своїми роботами; виконавець стертий, спосіб і умови збережені.</li>
+    <li><b>Секвенсори</b> — мінімум 4 різні; «then» ніколи двічі поспіль.</li>
+  </ul>
+  <p class="small" style="margin-top:10px;">Навіщо це далі: Тренажер 4 — три повні завдання: кава, мед і чай. Від підказок до чистого іспиту.</p>
+</div>
+
+</div>
+
+<script>
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function gateModel(btnId,taId,modelId,attId){const btn=document.getElementById(btnId),ta=document.getElementById(taId),m=document.getElementById(modelId);
+ ta.addEventListener('input',function(){btn.disabled=ta.value.trim().length<25;});
+ btn.addEventListener('click',function(){if(btn.disabled)return;ta.readOnly=true;ta.classList.add('locked');btn.disabled=true;
+  document.getElementById(attId).innerHTML='<div class="attempt"><span class="lbl">Твоя зафіксована спроба</span>'+esc(ta.value)+'</div>';
+  m.style.display='block';m.scrollIntoView({behavior:'smooth',block:'nearest'});});}
+gateModel('b1','i1','m1','a1');gateModel('b2','i2','m2','a2');gateModel('b3','i3','m3','a3');gateModel('bfx','fx','mfx','afx');
+
+const OVS=[
+ {s:"Overall, the process is linear and falls into two distinct phases: the preparation of the beans on the farm, followed by their processing in the factory.",opts:["Це нормальне overview-речення","Тут назва етапу або деталь","Тут причина чи думка"],a:0,w:"Саме так: форма + фази, жодного етапу."},
+ {s:"Overall, the cycle consists of six stages and is fully circular: it begins with eggs laid in a riverbed and ends when adult salmon return to spawn, completing the cycle.",opts:["Це нормальне overview-речення","Тут назва етапу або деталь","Тут причина чи думка"],a:0,w:"Саме так: форма циклу + рамка + completing the cycle."},
+ {s:"Overall, the beans are fermented for six to ten days, after which they are dried in the sun.",opts:["Це нормальне overview-речення","Тут назва етапу або деталь","Тут причина чи думка"],a:1,w:"Назви етапів (fermented, dried) — це body. У overview тільки форма, фази, рамка."},
+ {s:"Overall, the honey is filtered so that it tastes better for customers.",opts:["Це нормальне overview-речення","Тут назва етапу або деталь","Тут причина чи думка"],a:2,w:"«so that it tastes better» — причина з твоєї голови. Заборонена."}
+];
+(function(){document.getElementById('ov-items').innerHTML=OVS.map((o,i)=>'<p style="font-size:15.5px;margin:14px 0 8px;"><b>'+(i+1)+'.</b> <i>'+o.s+'</i></p>'+o.opts.map((t,j)=>'<label class="opt" id="oo-'+i+'-'+j+'" style="margin-bottom:6px;"><input type="radio" name="ov'+i+'" id="oi-'+i+'-'+j+'"><span>'+t+'<div class="why" id="ow-'+i+'-'+j+'"></div></span></label>').join('')).join('');})();
+function checkOV(){let c=0;OVS.forEach((o,i)=>o.opts.forEach((t,j)=>{const lab=document.getElementById('oo-'+i+'-'+j),why=document.getElementById('ow-'+i+'-'+j);lab.classList.remove('ok','bad');why.innerHTML='';if(document.getElementById('oi-'+i+'-'+j).checked){const good=j===o.a;lab.classList.add(good?'ok':'bad');why.innerHTML=(good?'✓ ':'✗ ')+o.w;if(good)c++;}}));document.getElementById('ov-fb').innerHTML=c===4?'<span style="color:var(--green)">✓ 4 з 4. Overview-око твоє.</span>':'<span style="color:var(--red)">'+c+' з 4. Читай пояснення — і ще раз.</span>';}
+function resetOV(){OVS.forEach((o,i)=>o.opts.forEach((t,j)=>{document.getElementById('oi-'+i+'-'+j).checked=false;document.getElementById('oo-'+i+'-'+j).classList.remove('ok','bad');document.getElementById('ow-'+i+'-'+j).innerHTML='';}));document.getElementById('ov-fb').innerHTML='';}
+
+const DRILLS={
+A:[
+ {q:'Збір какао-бобів (harvest). Обери пасив.',opts:shuffle([
+  {t:'The ripe pods are harvested by hand.',ok:true,w:'are + V3 (harvested) + спосіб (by hand). Два компоненти на місці.'},
+  {t:'The ripe pods are harvest by hand.',ok:false,w:'Бракує V3: harvest → harvested. Неповний пасив.'},
+  {t:'The ripe pods harvest by hand.',ok:false,w:'Зовсім без be — це актив без підмета-дієслова. Граматична помилка.'}])},
+ {q:'Сушіння (dry). Обери пасив.',opts:shuffle([
+  {t:'The beans are dried in the sun.',ok:true,w:'are dried = їх сушать (дієслово). «are dry» означало б «вони сухі» (стан).'},
+  {t:'The beans are dry in the sun.',ok:false,w:'are dry = прикметник (стан), а не дія. Діаграма показує дію.'},
+  {t:'The beans dried in the sun by workers.',ok:false,w:'Past simple у процесі — неправильно: процеси поза часом.'}])},
+ {q:'Після once — послідовність завершеного етапу.',opts:shuffle([
+  {t:'Once the beans have been dried, they are transported to the factory.',ok:true,w:'Perfect passive: сушіння ЗАВЕРШЕНЕ до наступного етапу. Послідовність закладена в граматику.'},
+  {t:'Once the beans are drying, they are transported to the factory.',ok:false,w:'Continuous у процесі — тільки якщо діаграма «заморожена» в моменті. Стандарт: perfect.'},
+  {t:'Once the beans dried, they are transported to the factory.',ok:false,w:'Змішування часів без пасиву — помилка двічі.'}])},
+ {q:'Мета етапу (кокони кип'ятять, ЩОБ нитку можна було зняти).',opts:shuffle([
+  {t:'The cocoons are boiled in hot water, so that the thread can be unwound.',ok:true,w:'Modal passive (can be unwound) — мета етапу, а не заборонена «причина чому».'},
+  {t:'The cocoons are boiled in hot water, because unwinding is good.',ok:false,w:'«because» — думка, а не мета процесу. Заборонено.'},
+  {t:'The cocoons are boil in hot water, so the thread unwinds.',ok:false,w:'are boil — неповний пасив; «unwinds» — актив там, де потрібен пасив.'}])}
+],
+B:[
+ {q:'Склей: «The pods are harvested by hand, ___ they are split open.»',opts:shuffle([
+  {t:'after which',ok:true,w:'«after which» — родовий відносний зв'язок: тримає обидва етапи в одному реченні.'},
+  {t:'then then',ok:false,w:'«Then» двічі поспіль — сигнал Band 6.'},
+  {t:'and next also then',ok:false,w:'Каша зі зв'язок — гірше за «then».'}])},
+ {q:'Склей фази: «___, they are roasted at 120°C.» (боби щойно прибули на фабрику)',opts:shuffle([
+  {t:'Once the beans reach the factory',ok:true,w:'Місток фази: одна кляуза переносить матеріал у нову локацію і відкриває Body 2.'},
+  {t:'Then the beans go to a factory and',ok:false,w:'«go to a factory» — розмовне; місток має бути компактним.'},
+  {t:'Next next',ok:false,w:'Повтор зв'язку — монотонність, яку екзаменатор карає.'}])},
+ {q:'Фінал: «…poured into moulds, ___ it sets into bars.»',opts:shuffle([
+  {t:'where',ok:true,w:'where-кляуза закриває процес точно там, де закінчується діаграма.'},
+  {t:'then',ok:false,w:'Ще один «then» — у цьому абзаці їх уже забагато.'},
+  {t:'because',ok:false,w:'«because» почне заборонене пояснення причини.'}])}
+],
+C:[
+ {q:'«Workers pick the coffee cherries. Then they remove the skin.»',opts:shuffle([
+  {t:'Ripe coffee cherries are picked by hand, after which the skin and fruit flesh are removed in a process known as pulping.',ok:true,w:'Пасив ×2 + after which + спосіб + термін (pulping). Повний набір Band 8.'},
+  {t:'The coffee cherries are picked. Then the skin is removed.',ok:false,w:'Два речення + «then» = Band 5. З'єднуй!'},
+  {t:'Workers are picking the cherries and removing the skin.',ok:false,w:'Continuous + виконавці на місці — дві помилки.'}])},
+ {q:'«Then the bees close the cells with wax.»',opts:shuffle([
+  {t:'Once the honey has thickened, the cells are sealed with wax.',ok:true,w:'Perfect active зміни стану (has thickened) + пасив + деталь діаграми. Послідовність у граматиці.'},
+  {t:'Then the bees are closing the cells with wax.',ok:false,w:'Continuous неправильний; «then» зайвий.'},
+  {t:'The cells are closed with wax by the bees, by the bees.',ok:false,w:'by-агент повторений двічі і не додає інформації — видаляй.'}])},
+ {q:'«People choose the best cocoons and put them in hot water.»',opts:shuffle([
+  {t:'The best cocoons are selected and boiled in hot water, so that the thread can be unwound.',ok:true,w:'Пасив ×2 + модальний пасив мети. Точна відповідь діаграмі.'},
+  {t:'The best cocoons are chosen and are put in hot water by people.',ok:false,w:'by people — порожній агент, «put» — Band 5 дієслово (boiled точніше).'},
+  {t:'The cocoons are selected. Then they are boiled. Then the thread unwinds.',ok:false,w:'Три речення з двома «then» — список, а не процес.'}])}
+]};
+function initDrills(){Object.keys(DRILLS).forEach(k=>{document.getElementById('drill'+k).innerHTML=DRILLS[k].map((d,i)=>'<p style="font-size:15.5px;margin:14px 0 8px;"><b>'+(i+1)+'.</b> '+d.q+'</p>'+d.opts.map((o,j)=>'<label class="opt" id="d'+k+'-'+i+'-'+j+'" style="margin-bottom:6px;"><input type="radio" name="d'+k+i+'" id="i'+k+'-'+i+'-'+j+'"><span>'+o.t+'<div class="why" id="w'+k+'-'+i+'-'+j+'"></div></span></label>').join('')).join('');});}
+function checkDrill(k){let c=0;DRILLS[k].forEach((d,i)=>d.opts.forEach((o,j)=>{const lab=document.getElementById('d'+k+'-'+i+'-'+j),why=document.getElementById('w'+k+'-'+i+'-'+j);lab.classList.remove('ok','bad');why.innerHTML='';if(document.getElementById('i'+k+'-'+i+'-'+j).checked){const good=o.ok;lab.classList.add(good?'ok':'bad');why.innerHTML=(good?'✓ ':'✗ ')+o.w;if(good)c++;}}));document.getElementById('fb'+k).innerHTML=c===DRILLS[k].length?'<span style="color:var(--green)">✓ Усі '+c+'. Пасивна машина працює.</span>':'<span style="color:var(--red)">'+c+' з '+DRILLS[k].length+'. Читай пояснення до червоних.</span>';}
+function resetDrill(k){DRILLS[k].forEach((d,i)=>d.opts.forEach((o,j)=>{document.getElementById('i'+k+'-'+i+'-'+j).checked=false;document.getElementById('d'+k+'-'+i+'-'+j).classList.remove('ok','bad');document.getElementById('w'+k+'-'+i+'-'+j).innerHTML='';}));document.getElementById('fb'+k).innerHTML='';}
+
+const TRAPS=[
+ {q:'«Збирають вручну» — повний пасив.',opts:['The pods are collect by hand.','The pods are collected by hand.','The pods are collecting by hand.'],a:1,w:'be + V3: are collected. Українське «збирають» — одне слово, англійська вимагає обидва компоненти.'},
+ {q:'«Боби сушать на сонці» — дія, не стан.',opts:['The beans are dry in the sun.','The beans are dried in the sun.','The beans dry in the sun by workers.'],a:1,w:'are dried = їх сушать. are dry = вони сухі (прикметник).'},
+ {q:'«Процес складається з дев\'яти етапів».',opts:['The process is consisted of nine stages.','The process consists of nine stages.','The process is consisting of nine stages.'],a:1,w:'consist не має пасиву — як і occur, happen, take place. Калька «складається з» ламає обидва варіанти.'},
+ {q:'Агент у пасиві.',opts:['The beans are roasted by machines.','The beans are roasted at 120°C.','The beans are roasted by the factory workers by the people.'],a:1,w:'by machines/workers — порожня інформація. Температура, спосіб, місце — залишай.'},
+ {q:'Час у процесі.',opts:['In 2023, chocolate was produced…','Chocolate is produced…','Chocolate has been producing…'],a:1,w:'Дат на діаграмі немає → present simple. Процес описуємо як завжди повторюваний.'},
+ {q:'«Щоб смак розвинувся» — пояснення причини.',opts:['The beans are fermented so that the flavour develops.','The beans are fermented because this is good for flavour.','Не писати жодного пояснення.'],a:2,w:'Навіть мета-конструкції ризиковані на іспиті. Діаграма сказала «6–10 днів» — вона НЕ сказала «чому». Безпечно: лише те, що показано.'}
+];
+(function(){document.getElementById('traps').innerHTML=TRAPS.map((t,i)=>'<p style="font-size:15.5px;margin:14px 0 8px;"><b>'+(i+1)+'.</b> '+t.q+'</p>'+shuffle(t.opts.map((o,idx)=>({o:o,idx:idx}))).map(x=>'<label class="opt" id="to-'+i+'-'+x.idx+'" style="margin-bottom:6px;"><input type="radio" name="t'+i+'" id="ti-'+i+'-'+x.idx+'"><span>'+x.o+'<div class="why" id="tw-'+i+'-'+x.idx+'"></div></span></label>').join('')).join('');})();
+function checkTraps(){let c=0;TRAPS.forEach((t,i)=>t.opts.forEach((o,j)=>{const lab=document.getElementById('to-'+i+'-'+j),why=document.getElementById('tw-'+i+'-'+j);lab.classList.remove('ok','bad');why.innerHTML='';if(document.getElementById('ti-'+i+'-'+j).checked){const good=j===t.a;lab.classList.add(good?'ok':'bad');why.innerHTML=(good?'✓ ':'✗ ')+t.w;if(good)c++;}}));document.getElementById('traps-fb').innerHTML=c>=5?'<span style="color:var(--green)">✓ '+c+' з 6. Пасив тримано.</span>':'<span style="color:var(--red)">'+c+' з 6. Таблиця пасток вище — і ще раз.</span>';}
+function resetTraps(){TRAPS.forEach((t,i)=>t.opts.forEach((o,j)=>{document.getElementById('ti-'+i+'-'+j).checked=false;document.getElementById('to-'+i+'-'+j).classList.remove('ok','bad');document.getElementById('tw-'+i+'-'+j).innerHTML='';}));document.getElementById('traps-fb').innerHTML='';}
+
+initDrills();
+</script>
+</body>
+</html>
